@@ -1,12 +1,10 @@
 import requests
 import sqlite3
 
-# Step 1: Fetch data from API
 url = "https://fakerapi.it/api/v1/books?_quantity=10"
 response = requests.get(url)
 data = response.json()["data"]
 
-# Step 2: Create SQLite database
 conn = sqlite3.connect("books.db")
 cursor = conn.cursor()
 
@@ -19,7 +17,7 @@ CREATE TABLE IF NOT EXISTS books (
 )
 """)
 
-# Step 3: Insert data into database
+
 for book in data:
     cursor.execute(
         "INSERT INTO books (title, author, year) VALUES (?, ?, ?)",
@@ -28,7 +26,7 @@ for book in data:
 
 conn.commit()
 
-# Step 4: Display stored data
+
 cursor.execute("SELECT title, author, year FROM books")
 rows = cursor.fetchall()
 
